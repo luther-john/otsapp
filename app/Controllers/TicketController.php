@@ -142,7 +142,7 @@ class TicketController extends BaseController
         $ticketModel->insert($data);
         $response = array(
             'status' => 'success',
-            'message' => 'Office added successfully'
+            'message' => 'Tickets added successfully'
         );
 
         return $this->response->setStatusCode(Response::HTTP_CREATED)->setJSON($response);

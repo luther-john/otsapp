@@ -15,6 +15,6 @@ $routes->post('offices/list', 'OfficeController::list' , ['filter' => 'group:adm
 $routes->post('tickets/list', 'TicketController::list' , ['filter' => 'group:admin']);
 
 $routes->resource('offices',['controller' => 'OfficeController', 'filter' => 'group:admin']);
-$routes->resource('tickets',['controller' => 'TicketController', 'filter' => 'group:admin,user']);
+$routes->resource('tickets',['controller' => 'TicketController', 'filter' => 'group:admin']);
 
 service('auth')->routes($routes);

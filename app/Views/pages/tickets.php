@@ -126,11 +126,15 @@ $(function() {
             e.preventDefault();
 
             let formdata = $(this).serializeArray().reduce(function(obj, item) {
-                obj[item.name] = item.value;
+                obj[item.first_name] = item.value;
+                obj[item.last_name] = item.value;
                 return obj;
             }, {});
-            // alert(JSON.stringify(formdata));
+ 
             let jsondata = JSON.stringify(formdata);
+
+            console.log(formdata);
+            console.log(jsondata);
 
             if (this.checkValidity()) {
 

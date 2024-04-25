@@ -65,6 +65,11 @@ class TicketController extends BaseController
         $totalRecordswithFilter = $ticketModel->select('id')
         ->like('first_name',$seachvalue)
         ->orLike('last_name',$seachvalue)
+        ->orLike('email',$seachvalue)
+        ->orLike('state',$seachvalue)
+        ->orLike('severity',$seachvalue)
+        ->orLike('description',$seachvalue)
+        ->orLike('remarks',$seachvalue)
         ->orderBy($sortcolumn,$sortdir)
         ->countAllResults();
 
@@ -73,6 +78,11 @@ class TicketController extends BaseController
         $records = $ticketModel->select('*')
         ->like('first_name',$seachvalue)
         ->orLike('last_name',$seachvalue)
+        ->orLike('email',$seachvalue)
+        ->orLike('state',$seachvalue)
+        ->orLike('severity',$seachvalue)
+        ->orLike('description',$seachvalue)
+        ->orLike('remarks',$seachvalue)
         ->orderBy($sortcolumn,$sortdir)
         ->findAll($rowperpage,$start);
 
@@ -83,6 +93,11 @@ class TicketController extends BaseController
                 'id' => $record['id'],
                 'first_name' => $record['first_name'],
                 'last_name' => $record['last_name'],
+                'email' => $record['email'],
+                'state' => $record['state'],
+                'severity' => $record['severity'],
+                'description' => $record['description'],
+                'remarks' => $record['remarks'],
             );
         }
 
@@ -168,7 +183,7 @@ class TicketController extends BaseController
         $ticketModel->update($id, $data);
         $response = array(
             'status' => 'success',
-            'message' => 'Office updated successfully'
+            'message' => 'Ticket updated successfully'
         );
 
         return $this->response->setStatusCode(Response::HTTP_OK)->setJSON($response);

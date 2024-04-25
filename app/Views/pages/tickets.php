@@ -26,6 +26,11 @@
                             <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
+                            <th>Email</th>
+                            <th>State</th>
+                            <th>Severity</th>
+                            <th>Description</th>
+                            <th>Remarks</th>
                             <th>ACTIONS</th>
                         </tr>
                     </thead>
@@ -50,17 +55,47 @@
                     <div class="card-body">
                         <input type="hidden" id="id" name="id" />
                         <div class="form-group">
-                            <label for="code">Code</label>
-                            <input type="text" class="form-control" id="code" name="code" placeholder="Enter Office Code" required>
+                            <label for="first_name">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="First Name" placeholder="Enter First Name" required>
                             <div class="valid-feedback">Looks Good!</div>
-                            <div class="invalid-feedback">Please enter a valid code</div>
+                            <div class="invalid-feedback">Please enter your First Name</div>
 
                         </div>
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Office Name" required>
+                            <label for="last_name">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="Last Name" placeholder="Enter Last Name" required>
                             <div class="valid-feedback">Looks Good!</div>
                             <div class="invalid-feedback">Please enter a valid code</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" name="Email" placeholder="Enter Email" required>
+                            <div class="valid-feedback">Looks Good!</div>
+                            <div class="invalid-feedback">Please enter a email address</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" class="form-control" id="state" name="State" placeholder="Enter State" required>
+                            <div class="valid-feedback">Looks Good!</div>
+                            <div class="invalid-feedback">Please enter a valid state</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="severity">Severity</label>
+                            <input type="text" class="form-control" id="severity" name="Severity" placeholder="Enter State" required>
+                            <div class="valid-feedback">Looks Good!</div>
+                            <div class="invalid-feedback">Please enter a valid severity</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" name="Description" placeholder="Enter State" required>
+                            <div class="valid-feedback">Looks Good!</div>
+                            <div class="invalid-feedback">Please enter a valid description</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="remarks">Remarks</label>
+                            <input type="text" class="form-control" id="remarks" name="Remarks" placeholder="Enter State" required>
+                            <div class="valid-feedback">Looks Good!</div>
+                            <div class="invalid-feedback">Please enter a valid state</div>
                         </div>
                     </div>
 
@@ -86,40 +121,6 @@
 
 <?= $this->section('javascripts') ?>
 <script>
-    
-    let table = $("#datatable").DataTable({
-        responsive: true,
-        processing: true,
-        serverSide: true,
-        paging: true,
-        lengthChange: true,
-        lengthMenu: [5, 10, 20, 50],
-        searching: true,
-        ordering: true,
-        autoWidth: false,
-        ajax: {
-            url: '<?= base_url('tickets/list') ?>',
-            type: 'POST',
-        },
-        columns: [{
-            data: 'id',
-        }, {
-            data: 'first_name',
-        }, {
-            data: 'last_name',
-        }, {
-            data: '',
-            defaultContent: `
-                <td>
-                <button type="button" class="btn btn-warning" id="editBtn">Edit</button>
-                <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
-                </td>
-                `
-        }],
-    });
-
-    
-
 $(function() {
         $('form').submit(function(e) {
             e.preventDefault();
@@ -200,6 +201,55 @@ $(function() {
         });
     });
 
+    let table = $("#datatable").DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        paging: true,
+        lengthChange: true,
+        lengthMenu: [5, 10, 20, 50],
+        searching: true,
+        ordering: true,
+        autoWidth: false,
+        ajax: {
+            url: '<?= base_url('tickets/list') ?>',
+            type: 'POST',
+        },
+        columns: [{
+            data: 'id',
+        }, {
+            data: 'first_name',
+        }, {
+            data: 'last_name',
+        },
+        {
+            data: 'email',
+        },
+        {
+            data: 'state',
+        },
+        {
+            data: 'severity',
+        },
+        {
+            data: 'description',
+        },
+        {
+            data: 'remarks',
+        },       
+        {
+            data: '',
+            defaultContent: `
+                <td>
+                <button type="button" class="btn btn-warning" id="editBtn">Edit</button>
+                <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+                </td>
+                `
+        }],
+    });
+
+    
+
 
 $(document).on("click", "#editBtn", function() {
         let row = $(this).parents("tr")[0];
@@ -211,8 +261,13 @@ $(document).on("click", "#editBtn", function() {
             success: function(response) {
                 $("#modalform").modal('show');
                 $("#id").val(response.id);
-                $("#code").val(response.code);
-                $("#name").val(response.name);
+                $("#first_name").val(response.first_name);
+                $("#last_name").val(response.last_name);
+                $("#email").val(response.email);
+                $("#state").val(response.state);
+                $("#severity").val(response.severity);
+                $("#description").val(response.description);
+                $("#remarks").val(response.remarks);
             },
             error: function(response) {
                 let parseresponse = JSON.parse(response.responseText);
@@ -283,8 +338,13 @@ $(document).on("click", "#editBtn", function() {
     
     function clearform() {
         $("#id").val('');
-        $("#code").val('');
-        $("#name").val('');
+        $("#first_name").val('');
+        $("#last_name").val('');
+        $("#email").val('');
+        $("#state").val('');
+        $("#severity").val('');
+        $("#description").val('');
+        $("#remarks").val('');
     }
 </script>
 <?= $this->endSection() ?>
